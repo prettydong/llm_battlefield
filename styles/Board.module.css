@@ -1,0 +1,84 @@
+/* 棋盘 — 主题自适应 */
+
+.boardWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1;
+}
+
+.boardSvg {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+.gridLine {
+    stroke: var(--board-grid);
+    stroke-width: 0.5;
+}
+
+.starPoint {
+    fill: var(--board-star);
+}
+
+.stone {
+    /* pixel style = snappy, no transition */
+}
+
+.stoneBlack {
+    fill: url(#blackGrad);
+    stroke: var(--board-border);
+    stroke-width: 0.3;
+}
+
+.stoneWhite {
+    fill: url(#whiteGrad);
+    stroke: var(--board-border);
+    stroke-width: 0.3;
+}
+
+.lastMove {
+    animation: stone-drop 0.2s steps(4) forwards;
+}
+
+@keyframes stone-drop {
+    0% {
+        r: 0;
+        opacity: 0;
+    }
+
+    50% {
+        r: 3.5;
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.winStone {
+    animation: win-flash 0.8s steps(2) infinite;
+}
+
+@keyframes win-flash {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.coordLabel {
+    font-family: 'zpix', monospace;
+    font-size: 3px;
+    fill: var(--board-coord);
+    text-anchor: middle;
+    dominant-baseline: central;
+    user-select: none;
+}
