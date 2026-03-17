@@ -8,8 +8,10 @@ export default function handler(req, res) {
         if (
             !players?.black?.baseUrl ||
             !players?.black?.model ||
+            !players?.black?.apiKey ||
             !players?.white?.baseUrl ||
-            !players?.white?.model
+            !players?.white?.model ||
+            !players?.white?.apiKey
         ) {
             return res.status(400).json({ error: 'Missing player configuration' });
         }

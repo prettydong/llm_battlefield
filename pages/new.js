@@ -8,15 +8,17 @@ export default function NewGame() {
     const [error, setError] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
 
-    const [black, setBlack] = useState({ baseUrl: '', model: '', apiKey: '' });
-    const [white, setWhite] = useState({ baseUrl: '', model: '', apiKey: '' });
+    const [black, setBlack] = useState({ baseUrl: 'https://api.moonshot.cn/v1', model: 'moonshot-v1-8k', apiKey: '' });
+    const [white, setWhite] = useState({ baseUrl: 'https://api.moonshot.cn/v1', model: 'moonshot-v1-8k', apiKey: '' });
 
     function validate() {
         const errs = {};
         if (!black.baseUrl.trim()) errs.blackUrl = '黑甲蛐蛐还没找到窝！请填写来源地址';
         if (!black.model.trim()) errs.blackModel = '黑甲蛐蛐品种未定！请填写模型名';
+        if (!black.apiKey.trim()) errs.blackKey = '黑甲蛐蛐没有入场凭证！请填写 API Key';
         if (!white.baseUrl.trim()) errs.whiteUrl = '白翎蛐蛐来源不明！请填写来源地址';
         if (!white.model.trim()) errs.whiteModel = '白翎蛐蛐品种未定！请填写模型名';
+        if (!white.apiKey.trim()) errs.whiteKey = '白翎蛐蛐没有入场凭证！请填写 API Key';
         return errs;
     }
 
@@ -63,14 +65,26 @@ export default function NewGame() {
     // 输入时清除对应字段错误
     function updateBlack(field, value) {
         setBlack(p => ({ ...p, [field]: value }));
-        const errKey = field === 'baseUrl' ? 'blackUrl' : field === 'model' ? 'blackModel' : null;
+        const errKey = field === 'baseUrl'
+            ? 'blackUrl'
+            : field === 'model'
+                ? 'blackModel'
+                : field === 'apiKey'
+                    ? 'blackKey'
+                    : null;
         if (errKey && fieldErrors[errKey]) {
             setFieldErrors(prev => { const n = { ...prev }; delete n[errKey]; return n; });
         }
     }
     function updateWhite(field, value) {
         setWhite(p => ({ ...p, [field]: value }));
-        const errKey = field === 'baseUrl' ? 'whiteUrl' : field === 'model' ? 'whiteModel' : null;
+        const errKey = field === 'baseUrl'
+            ? 'whiteUrl'
+            : field === 'model'
+                ? 'whiteModel'
+                : field === 'apiKey'
+                    ? 'whiteKey'
+                    : null;
         if (errKey && fieldErrors[errKey]) {
             setFieldErrors(prev => { const n = { ...prev }; delete n[errKey]; return n; });
         }
@@ -140,12 +154,13 @@ export default function NewGame() {
                                     <label className="form-label" htmlFor="black-key">▸ 入场凭证（密钥）</label>
                                     <input
                                         id="black-key"
-                                        className="form-input"
+                                        className={`form-input ${fieldErrors.blackKey ? 'form-input-error' : ''}`}
                                         type="password"
                                         placeholder="sk-..."
                                         value={black.apiKey}
                                         onChange={(e) => updateBlack('apiKey', e.target.value)}
                                     />
+                                    {fieldErrors.blackKey && <div className="field-error">{fieldErrors.blackKey}</div>}
                                 </div>
                             </div>
 
@@ -186,12 +201,13 @@ export default function NewGame() {
                                     <label className="form-label" htmlFor="white-key">▸ 入场凭证（密钥）</label>
                                     <input
                                         id="white-key"
-                                        className="form-input"
+                                        className={`form-input ${fieldErrors.whiteKey ? 'form-input-error' : ''}`}
                                         type="password"
                                         placeholder="sk-..."
                                         value={white.apiKey}
                                         onChange={(e) => updateWhite('apiKey', e.target.value)}
                                     />
+                                    {fieldErrors.whiteKey && <div className="field-error">{fieldErrors.whiteKey}</div>}
                                 </div>
                             </div>
                         </div>
